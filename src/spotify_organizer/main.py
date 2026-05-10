@@ -14,6 +14,7 @@ def main():
         client_secret=settings.spotify_client_secret,
         redirect_uri=settings.spotify_redirect_uri,
         scope="ugc-image-upload user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public user-follow-modify user-follow-read user-read-playback-position user-top-read user-read-recently-played user-library-modify user-library-read user-read-email user-read-private",
+        cache_path=".spotify_cache",
     )
     sp = spotipy.Spotify(auth_manager=auth_manager)
 
