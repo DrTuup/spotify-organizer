@@ -1,0 +1,12 @@
+[project]
+name = "spotify-organizer"
+version = "0.1.0"
+description = "Organize your Spotify playlists with ease."
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "pydantic-settings>=2.14.1",
+    "ruff>=0.15.12",
+    "spotipy>=2.26.0",
+    "ty>=0.0.34",
+]
