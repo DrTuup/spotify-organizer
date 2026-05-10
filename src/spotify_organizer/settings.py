@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     spotify_client_secret: str = ""
     spotify_redirect_uri: str = "http://127.0.0.1:8080/callback"
     spotify_user_id: str = ""
+    spotify_cache_path: str = ".spotify_cache"
 
     exclude_playlists: list[str] = ["Feestje", "Mijn Shazam-nummers"]
 
