@@ -1,4 +1,4 @@
-from .settings import settings
+from spotify_organizer.settings import settings
 import logging
 import time
 
@@ -51,15 +51,23 @@ def run_sync():
                 f"Processing playlist: {playlist['name']} (ID: {playlist['id']})"
             )
             tracks = sp.playlist_tracks(playlist["id"])
-            for track in tracks["items"]:
-                track_id = track["item"]["id"]
-                track_name = track["item"]["name"]
-                # Add the songs that are not in the user's library to the library of the user
-                if track_id not in saved_track_ids:
-                    logging.info(
-                        f"Adding track '{track_name}' (ID: {track_id}) to library"
-                    )
-                    sp.current_user_saved_tracks_add([track_id])
+            while tracks:
+                for track in tracks["items"]:
+                    if track["item"] is None:
+                        # Skip tracks that have been deleted from Spotify
+                        continue
+                    track_id = track["item"]["id"]
+                    track_name = track["item"]["name"]
+                    # Add the songs that are not in the user's library to the library of the user
+                    if track_id not in saved_track_ids:
+                        logging.info(
+                            f"Adding track '{track_name}' (ID: {track_id}) to library"
+                        )
+                        sp.current_user_saved_tracks_add([track_id])
+                if tracks["next"]:
+                    tracks = sp.next(tracks)
+                else:
+                    break
 
 
 def main():
