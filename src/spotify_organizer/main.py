@@ -1,5 +1,6 @@
 from .settings import settings
 import logging
+import time
 
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -8,7 +9,7 @@ from spotipy.oauth2 import SpotifyOAuth
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
 
-def main():
+def run_sync():
     auth_manager = SpotifyOAuth(
         client_id=settings.spotify_client_id,
         client_secret=settings.spotify_client_secret,
@@ -59,6 +60,23 @@ def main():
                         f"Adding track '{track_name}' (ID: {track_id}) to library"
                     )
                     sp.current_user_saved_tracks_add([track_id])
+
+
+def main():
+    """Main entry point that runs the sync in a loop."""
+    logging.info(
+        f"Starting Spotify Organizer with interval of {settings.interval} seconds"
+    )
+    while True:
+        try:
+            logging.info("Running Spotify sync...")
+            run_sync()
+            logging.info(f"Sync completed. Sleeping for {settings.interval} seconds")
+            time.sleep(settings.interval)
+        except Exception as e:
+            logging.error(f"Error during sync: {e}", exc_info=True)
+            logging.info(f"Retrying in {settings.interval} seconds")
+            time.sleep(settings.interval)
 
 
 if __name__ == "__main__":

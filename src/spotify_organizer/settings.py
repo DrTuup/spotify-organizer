@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     spotify_cache_path: str = ".spotify_cache"
 
     exclude_playlists: list[str] = ["Feestje", "Mijn Shazam-nummers"]
+    interval: int = 3600  # Interval in seconds between runs (default: 1 hour)
 
 
 settings = Settings()
