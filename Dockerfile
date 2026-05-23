@@ -11,4 +11,5 @@ WORKDIR /app
 RUN uv sync --locked
 
 # Run the installed package directly from the virtual environment
-CMD ["uv", "run", "spotify-organizer"]
+# Use --no-sync to prevent reinstalling dependencies on every container start
+CMD ["uv", "run", "--no-sync", "spotify-organizer"]
